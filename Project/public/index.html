@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Nome</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Digite seu nome</h1>
+    <input type="text" id="nome" placeholder="Seu nome">
+    <button onclick="enviarNome()">Enviar</button>
+    <p id="resposta"></p>
+  </div>
+
+  <script>
+    function enviarNome() {
+      const nome = document.getElementById('nome').value;
+      fetch('/api/nome', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nome })
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('resposta').innerText = data.message;
+      });
+    }
+  </script>
+</body>
+</html>

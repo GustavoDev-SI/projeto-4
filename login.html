@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Gerenciamento de Nomes</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f2f5;
+        }
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .toggle-form {
+            cursor: pointer;
+            color: #007bff;
+            text-align: center;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div id="loginForm">
+            <h2 class="text-center mb-4">Login</h2>
+            <form id="loginFormContent">
+                <div class="form-group">
+                    <label for="loginUsername">Usuário</label>
+                    <input type="text" class="form-control" id="loginUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Senha</label>
+                    <input type="password" class="form-control" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+            </form>
+            <div class="toggle-form" id="showRegister">Criar nova conta</div>
+        </div>
+
+        <div id="registerForm" style="display:none;">
+            <h2 class="text-center mb-4">Cadastro</h2>
+            <form id="registerFormContent">
+                <div class="form-group">
+                    <label for="registerUsername">Usuário</label>
+                    <input type="text" class="form-control" id="registerUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Senha</label>
+                    <input type="password" class="form-control" id="registerPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirmar Senha</label>
+                    <input type="password" class="form-control" id="confirmPassword" required>
+                </div>
+                <button type="submit" class="btn btn-success btn-block">Cadastrar</button>
+            </form>
+            <div class="toggle-form" id="showLogin">Já tenho uma conta</div>
+        </div>
+    </div>
+
+    <script>
+        // Alternar entre login e cadastro
+        document.getElementById('showRegister').addEventListener('click', function() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'block';
+        });
+
+        document.getElementById('showLogin').addEventListener('click', function() {
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('registerForm').style.display = 'none';
+        });
+
+        // Tratamento do formulário de login
+        document.getElementById('loginFormContent').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // Verifica se o usuário existe no localStorage
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const user = users.find(u => u.username === username && u.password === password);
+            
+            if (user) {
+                localStorage.setItem('currentUser', username);
+                window.location.href = 'index.html';
+            } else {
+                alert('Usuário ou senha incorretos');
+            }
+        });
+
+        // Tratamento do formulário de cadastro
+        document.getElementById('registerFormContent').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('registerUsername').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            // Validações básicas
+            if (password !== confirmPassword) {
+                alert('As senhas não coincidem');
+                return;
+            }
+            
+            // Verifica se o usuário já existe
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const userExists = users.some(u => u.username === username);
+            
+            if (userExists) {
+                alert('Usuário já cadastrado');
+                return;
+            }
+            
+            // Adiciona novo usuário
+            users.push({ username, password });
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            alert('Cadastro realizado com sucesso!');
+            
+            // Alterna para o formulário de login
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('registerForm').style.display = 'none';
+        });
+    </script>
+</body>
+</html>

@@ -1,20 +1,30 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Formulário Nome</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD de Nomes (Nova Versão)</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style_nova.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Digite seu nome</h1>
-    <form id="nameForm">
-      <input type="text" id="nameInput" placeholder="Seu nome" required />
-      <button type="submit">Enviar</button>
-    </form>
-    <p id="responseMessage"></p>
-  </div>
-  <script src="script.js"></script>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Gerenciamento de Nomes</h1>
+        <div class="input-group mb-3">
+            <input type="text" id="nomeInputNovo" class="form-control" placeholder="Digite um nome">
+            <input type="hidden" id="idEdicaoNovo">
+            <div class="input-group-append">
+                <button class="btn btn-primary" id="btnAcaoNovo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                    </svg>
+                    Adicionar
+                </button>
+            </div>
+        </div>
+        <ul id="listaNomesNova" class="list-group"></ul>
+    </div>
+
+    <script src="script_novo.js"></script>
 </body>
 </html>
